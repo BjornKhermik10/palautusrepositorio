@@ -1,26 +1,26 @@
-from urllib import request
+import urllib.request
+import json
 from player import Player
 
 class PlayerReader:
     def __init__(self, url):
-        self._url = url
+        self.url = url
 
     def get_players(self):
-        players_file = request.urlopen(self._url)
+        response = urllib.request.urlopen(self.url)
+        content = response.read()
+        players_dict = json.loads(content)
+
         players = []
 
-        for line in players_file:
-            decoded_line = line.decode("utf-8")
-            parts = decoded_line.split(";")
-
-            if len(parts) > 3:
-                player = Player(
-                    parts[0].strip(),
-                    parts[1].strip(),
-                    int(parts[3].strip()),
-                    int(parts[4].strip())
+        for player in players_dict:
+            players.append(
+                Player(
+                    player["name"],
+                    player["team"],
+                    player["goals"],
+                    player["assists"]
                 )
-
-                players.append(player)
+            )
 
         return players
