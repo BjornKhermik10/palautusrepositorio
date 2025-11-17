@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.3.2 (Python 3.13.3 on win32)" generated="2025-11-17T22:13:48.174389" rpa="false" schemaversion="5">
+<suite id="s1" name="Tests" source="C:\Users\bjorn\palautusrepositorio\viikko3\login\src\tests">
+<suite id="s1-s1" name="Home" source="C:\Users\bjorn\palautusrepositorio\viikko3\login\src\tests\home.robot">
+<kw name="Open And Configure Browser" owner="resource" type="SETUP">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2025-11-17T22:13:48.502475" level="INFO">Opening browser 'chrome' to base url 'http://localhost:5001'.</msg>
+<arg>${HOME_URL}</arg>
+<arg>${BROWSER}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2025-11-17T22:13:48.502274" elapsed="1.527972"/>
+</kw>
+<status status="PASS" start="2025-11-17T22:13:48.501837" elapsed="1.528629"/>
+</kw>
+<test id="s1-s1-t1" name="Click Login Link" line="8">
+<kw name="Reset Application And Go To Starting Page" type="SETUP">
+<kw name="Reset Application" owner="AppLibrary">
+<status status="PASS" start="2025-11-17T22:13:50.041218" elapsed="2.072032"/>
+</kw>
+<kw name="Go To Starting Page">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2025-11-17T22:13:52.114310" level="INFO">Opening url 'http://localhost:5001'</msg>
+<arg>${HOME_URL}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2025-11-17T22:13:52.114063" elapsed="0.073731"/>
+</kw>
+<status status="PASS" start="2025-11-17T22:13:52.113592" elapsed="0.074316"/>
+</kw>
+<status status="PASS" start="2025-11-17T22:13:50.040804" elapsed="2.147147"/>
+</kw>
+<kw name="Click Link" owner="SeleniumLibrary">
+<msg time="2025-11-17T22:13:52.315258" level="INFO">Clicking link 'Login'.</msg>
+<arg>Login</arg>
+<doc>Clicks a link identified by ``locator``.</doc>
+<status status="PASS" start="2025-11-17T22:13:52.314910" elapsed="0.242907"/>
+</kw>
+<kw name="Login Page Should Be Open">
+<msg time="2025-11-17T22:13:52.610157" level="FAIL">No keyword with name 'Login Page Should Be Open' found. Did you try using keyword 'BuiltIn.Log' and forgot to use enough whitespace between keyword and arguments?</msg>
+<status status="FAIL" start="2025-11-17T22:13:52.610091" elapsed="0.000114">No keyword with name 'Login Page Should Be Open' found. Did you try using keyword 'BuiltIn.Log' and forgot to use enough whitespace between keyword and arguments?</status>
+</kw>
+<status status="FAIL" start="2025-11-17T22:13:50.030624" elapsed="2.619911">No keyword with name 'Login Page Should Be Open' found. Did you try using keyword 'BuiltIn.Log' and forgot to use enough whitespace between keyword and arguments?</status>
+</test>
+<test id="s1-s1-t2" name="Click Register Link" line="12">
+<kw name="Reset Application And Go To Starting Page" type="SETUP">
+<kw name="Reset Application" owner="AppLibrary">
+<status status="PASS" start="2025-11-17T22:13:52.797680" elapsed="2.041216"/>
+</kw>
+<kw name="Go To Starting Page">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2025-11-17T22:13:54.839878" level="INFO">Opening url 'http://localhost:5001'</msg>
+<arg>${HOME_URL}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2025-11-17T22:13:54.839646" elapsed="0.034043"/>
+</kw>
+<status status="PASS" start="2025-11-17T22:13:54.839210" elapsed="0.034740"/>
+</kw>
+<status status="PASS" start="2025-11-17T22:13:52.797228" elapsed="2.077308"/>
+</kw>
+<kw name="Click Link" owner="SeleniumLibrary">
+<msg time="2025-11-17T22:13:54.878872" level="INFO">Clicking link 'Register new user'.</msg>
+<arg>Register new user</arg>
+<doc>Clicks a link identified by ``locator``.</doc>
+<status status="PASS" start="2025-11-17T22:13:54.878657" elapsed="0.335171"/>
+</kw>
+<kw name="Register Page Should Be Open">
+<msg time="2025-11-17T22:13:55.219831" level="FAIL">No keyword with name 'Register Page Should Be Open' found.</msg>
+<status status="FAIL" start="2025-11-17T22:13:55.219777" elapsed="0.000096">No keyword with name 'Register Page Should Be Open' found.</status>
+</kw>
+<status status="FAIL" start="2025-11-17T22:13:52.783226" elapsed="2.437617">No keyword with name 'Register Page Should Be Open' found.</status>
+</test>
+<kw name="Close Browser" owner="SeleniumLibrary" type="TEARDOWN">
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2025-11-17T22:13:55.232336" elapsed="6.080519"/>
+</kw>
+<status status="FAIL" start="2025-11-17T22:13:48.239172" elapsed="13.073902"/>
+</suite>
+<suite id="s1-s2" name="Login" source="C:\Users\bjorn\palautusrepositorio\viikko3\login\src\tests\login.robot">
+<kw name="Open And Configure Browser" owner="resource" type="SETUP">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2025-11-17T22:14:01.337422" level="INFO">Opening browser 'chrome' to base url 'http://localhost:5001'.</msg>
+<arg>${HOME_URL}</arg>
+<arg>${BROWSER}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2025-11-17T22:14:01.336897" elapsed="1.467004"/>
+</kw>
+<status status="PASS" start="2025-11-17T22:14:01.336538" elapsed="1.467889"/>
+</kw>
+<test id="s1-s2-t1" name="Login With Correct Credentials" line="8">
+<kw name="Reset Application Create User And Go To Login Page" type="SETUP">
+<kw name="Reset Application" owner="AppLibrary">
+<status status="PASS" start="2025-11-17T22:14:02.814658" elapsed="2.026258"/>
+</kw>
+<kw name="Create User">
+<msg time="2025-11-17T22:14:04.842906" level="FAIL">No keyword with name 'Create User' found.</msg>
+<arg>kalle</arg>
+<arg>kalle123</arg>
+<status status="FAIL" start="2025-11-17T22:14:04.842820" elapsed="0.000164">No keyword with name 'Create User' found.</status>
+</kw>
+<kw name="Go To Login Page">
+<status status="NOT RUN" start="2025-11-17T22:14:04.843186" elapsed="0.000040"/>
+</kw>
+<status status="FAIL" start="2025-11-17T22:14:02.814390" elapsed="2.029099">No keyword with name 'Create User' found.</status>
+</kw>
+<status status="FAIL" start="2025-11-17T22:14:02.804513" elapsed="2.039430">Setup failed:
+No keyword with name 'Create User' found.</status>
+</test>
+<test id="s1-s2-t2" name="Login With Incorrect Password" line="14">
+<kw name="Reset Application Create User And Go To Login Page" type="SETUP">
+<kw name="Reset Application" owner="AppLibrary">
+<status status="PASS" start="2025-11-17T22:14:04.845005" elapsed="2.142529"/>
+</kw>
+<kw name="Create User">
+<msg time="2025-11-17T22:14:06.990502" level="FAIL">No keyword with name 'Create User' found.</msg>
+<arg>kalle</arg>
+<arg>kalle123</arg>
+<status status="FAIL" start="2025-11-17T22:14:06.990455" elapsed="0.000095">No keyword with name 'Create User' found.</status>
+</kw>
+<kw name="Go To Login Page">
+<status status="NOT RUN" start="2025-11-17T22:14:06.990650" elapsed="0.000017"/>
+</kw>
+<status status="FAIL" start="2025-11-17T22:14:04.844830" elapsed="2.145909">No keyword with name 'Create User' found.</status>
+</kw>
+<status status="FAIL" start="2025-11-17T22:14:04.844531" elapsed="2.146551">Setup failed:
+No keyword with name 'Create User' found.</status>
+</test>
+<kw name="Close Browser" owner="SeleniumLibrary" type="TEARDOWN">
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2025-11-17T22:14:06.991519" elapsed="4.637110"/>
+</kw>
+<status status="FAIL" start="2025-11-17T22:14:01.324430" elapsed="10.304335"/>
+</suite>
+<status status="FAIL" start="2025-11-17T22:13:48.177144" elapsed="23.487285"/>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="4" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="Tests" id="s1" pass="0" fail="4" skip="0">Tests</stat>
+<stat name="Home" id="s1-s1" pass="0" fail="2" skip="0">Tests.Home</stat>
+<stat name="Login" id="s1-s2" pass="0" fail="2" skip="0">Tests.Login</stat>
+</suite>
+</statistics>
+<errors>
+<msg time="2025-11-17T22:13:48.242761" level="ERROR">Error in file 'C:\Users\bjorn\palautusrepositorio\viikko3\login\src\tests\resource.robot' on line 9: Setting variable '${REGISTER_URL} http://${SERVER}/register' failed: Invalid variable name '${REGISTER_URL} http://${SERVER}/register'.</msg>
+<msg time="2025-11-17T22:14:01.325337" level="ERROR">Error in file 'C:\Users\bjorn\palautusrepositorio\viikko3\login\src\tests\resource.robot' on line 9: Setting variable '${REGISTER_URL} http://${SERVER}/register' failed: Invalid variable name '${REGISTER_URL} http://${SERVER}/register'.</msg>
+</errors>
+</robot>
