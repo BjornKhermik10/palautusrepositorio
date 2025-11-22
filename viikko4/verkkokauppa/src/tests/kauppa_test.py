@@ -11,27 +11,27 @@ class TestKauppa(unittest.TestCase):
         self.viitegeneraattori_mock = Mock()
         self.varasto_mock = Mock()
 
-        # Palautetaan aina viite 42
+        # Palautetaan oletuksena viite 42
         self.viitegeneraattori_mock.uusi.return_value = 42
 
         # Määritellään sivuvaikutus (side_effect) varaston saldo-metodille
         def varasto_saldo(tuote_id):
             if tuote_id == 1:
-                return 10  # Maitoa on 10 kpl
+                return 10
             if tuote_id == 2:
-                return 10  # Piimää on 10 kpl
+                return 10
             if tuote_id == 3:
-                return 0   # Leipä on loppu
+                return 0
             return 0
 
         # Määritellään sivuvaikutus varaston hae_tuote-metodille
         def varasto_hae_tuote(tuote_id):
             if tuote_id == 1:
-                return Tuote(1, "maito", 5)  # Maito maksaa 5
+                return Tuote(1, "maito", 5)
             if tuote_id == 2:
-                return Tuote(2, "piimä", 4)  # Piimä maksaa 4
+                return Tuote(2, "piimä", 4)
             if tuote_id == 3:
-                return Tuote(3, "leipä", 6)  # Leipä maksaa 6
+                return Tuote(3, "leipä", 6)
             return None
 
         # Kytketään sivuvaikutukset mock-olioon
@@ -41,39 +41,80 @@ class TestKauppa(unittest.TestCase):
         # Alustetaan kauppa
         self.kauppa = Kauppa(self.varasto_mock, self.pankki_mock, self.viitegeneraattori_mock)
 
-    # TESTI 1: Yksi tuote (Maito, 5e)
+    # --- TEHTÄVÄ 3 TESTIT ---
+
     def test_ostoksen_paaytyttya_pankin_metodia_tilisiirto_kutsutaan(self):
         self.kauppa.aloita_asiointi()
-        self.kauppa.lisaa_koriin(1) # Lisätään maito (5€)
+        self.kauppa.lisaa_koriin(1)
         self.kauppa.tilimaksu("pekka", "12345")
-
-        # Tarkistetaan argumentit: nimi, viite, asiakkaan tili, kaupan tili, summa
         self.pankki_mock.tilisiirto.assert_called_with("pekka", 42, "12345", "33333-44455", 5)
 
-    # TESTI 2: Kaksi eri tuotetta (Maito 5e + Piimä 4e = 9e)
     def test_kaksi_eri_tuotetta_tilisiirto_kutsutaan_oikein(self):
         self.kauppa.aloita_asiointi()
-        self.kauppa.lisaa_koriin(1) # Maito (5€)
-        self.kauppa.lisaa_koriin(2) # Piimä (4€)
+        self.kauppa.lisaa_koriin(1)
+        self.kauppa.lisaa_koriin(2)
         self.kauppa.tilimaksu("pekka", "12345")
-
         self.pankki_mock.tilisiirto.assert_called_with("pekka", 42, "12345", "33333-44455", 9)
 
-    # TESTI 3: Kaksi samaa tuotetta (Maito 5e + Maito 5e = 10e)
     def test_kaksi_samaa_tuotetta_tilisiirto_kutsutaan_oikein(self):
         self.kauppa.aloita_asiointi()
-        self.kauppa.lisaa_koriin(1) # Maito (5€)
-        self.kauppa.lisaa_koriin(1) # Maito (5€)
+        self.kauppa.lisaa_koriin(1)
+        self.kauppa.lisaa_koriin(1)
         self.kauppa.tilimaksu("pekka", "12345")
-
         self.pankki_mock.tilisiirto.assert_called_with("pekka", 42, "12345", "33333-44455", 10)
 
-    # TESTI 4: Yksi saatavilla, yksi loppu (Maito 5e + Leipä 6e(loppu) = 5e)
     def test_tuote_loppu_tilisiirto_kutsutaan_oikein(self):
         self.kauppa.aloita_asiointi()
-        self.kauppa.lisaa_koriin(1) # Maito (5€) - ONNISTUU
-        self.kauppa.lisaa_koriin(3) # Leipä (6€) - LOPPU VARASTOSTA
+        self.kauppa.lisaa_koriin(1)
+        self.kauppa.lisaa_koriin(3) # Loppu
+        self.kauppa.tilimaksu("pekka", "12345")
+        self.pankki_mock.tilisiirto.assert_called_with("pekka", 42, "12345", "33333-44455", 5)
+
+    # --- TEHTÄVÄ 4 UUDET TESTIT ---
+
+    # 1. Varmistetaan, että aloita_asiointi nollaa edelliset tiedot
+    def test_aloita_asiointi_nollaa_edellisen_ostoksen_tiedot(self):
+        self.kauppa.aloita_asiointi()
+        self.kauppa.lisaa_koriin(1) # Hinta 5
+        
+        # Aloitetaan uusi asiointi, ostoskorin pitäisi tyhjentyä
+        self.kauppa.aloita_asiointi()
+        self.kauppa.lisaa_koriin(2) # Hinta 4
+        
+        self.kauppa.tilimaksu("pekka", "12345")
+        
+        # Odotetaan summaa 4 (vain jälkimmäinen ostos), ei 9
+        self.pankki_mock.tilisiirto.assert_called_with(ANY, ANY, ANY, ANY, 4)
+
+    # 2. Varmistetaan, että uusi viitenumero pyydetään joka kerta
+    def test_kauppa_pyytaa_uuden_viitenumeron_jokaiselle_maksutapahtumalle(self):
+        # Määritellään, että viitegeneraattori palauttaa järjestyksessä 42, 43, 44
+        self.viitegeneraattori_mock.uusi.side_effect = [42, 43, 44]
+
+        self.kauppa.aloita_asiointi()
+        self.kauppa.lisaa_koriin(1)
+        self.kauppa.tilimaksu("pekka", "12345")
+        
+        # Ensimmäinen maksu, viite 42
+        self.pankki_mock.tilisiirto.assert_called_with(ANY, 42, ANY, ANY, ANY)
+
+        self.kauppa.aloita_asiointi()
+        self.kauppa.lisaa_koriin(1)
         self.kauppa.tilimaksu("pekka", "12345")
 
-        # Vain maito pitäisi veloittaa (5€)
-        self.pankki_mock.tilisiirto.assert_called_with("pekka", 42, "12345", "33333-44455", 5)
+        # Toinen maksu, viite 43
+        self.pankki_mock.tilisiirto.assert_called_with(ANY, 43, ANY, ANY, ANY)
+
+    # 3. Testataan poistamista (Coveragen nosto 100%:iin)
+    def test_poista_korista_palauttaa_varastoon(self):
+        self.kauppa.aloita_asiointi()
+        self.kauppa.lisaa_koriin(1) # Lisätään maito (5e)
+        self.kauppa.poista_korista(1) # Poistetaan maito
+        
+        self.kauppa.tilimaksu("pekka", "12345")
+
+        # Summan pitäisi olla 0, koska tuote poistettiin
+        self.pankki_mock.tilisiirto.assert_called_with(ANY, ANY, ANY, ANY, 0)
+        
+        # Varmistetaan myös, että varastoon palautus -metodia kutsuttiin
+        self.varasto_mock.palauta_varastoon.assert_called()
