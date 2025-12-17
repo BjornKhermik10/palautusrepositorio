@@ -9,7 +9,26 @@ def main():
     reader = PlayerReader(url)
     stats = Statistics(reader)
 
-    # ... (edelliset testit)
+    print("--- Testi 1: Kaikki pelaajat (tyhjä kysely) ---")
+    query1 = QueryBuilder()
+    matcher1 = query1.build()
+    
+    # Tarkistetaan, että kaikki pelaajat palautetaan
+    print(f"Pelaajien kokonaisluku: {len(stats.matches(matcher1))}\n")
+
+
+    print("--- Testi 2: NYR pelaajat ---")
+    query2 = QueryBuilder()
+    matcher2 = query2.plays_in("NYR").build()
+
+    for player in stats.matches(matcher2):
+        # Tulostaa kaikki NYR pelaajat
+        # print(player)
+        pass # Kommentoidaan pois, ettei tuloste ole liian pitkä
+
+
+    print("\n--- Testi 3: NYR, 10 <= maalit < 20 ---")
+    query3 = QueryBuilder()
 
     print("\n--- Testi 4: PHILADELPHIA (apu < 10 maalia) TAI EDMONTON (apu >= 50 pistettä) ---")
     
