@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Kivi-Paperi-Sakset{% endblock %}
+
+{% block content %}
+  <div class="stack">
+    <div class="card">
+      <h2 style="margin-top: 0;">Aloita peli</h2>
+      <p class="muted" style="margin-top: 6px;">Siirrot: <span class="pill">k</span> kivi, <span class="pill">p</span> paperi, <span class="pill">s</span> sakset.</p>
+
+      <form method="post" action="{{ url_for('start_new') }}" class="stack">
+        <div class="stack">
+          <label>
+            <input type="radio" name="game_type" value="a" checked>
+            Ihminen vs ihminen
+          </label>
+          <label>
+            <input type="radio" name="game_type" value="b">
+            Ihminen vs tekoäly
+          </label>
+          <label>
+            <input type="radio" name="game_type" value="c">
+            Ihminen vs parannettu tekoäly
+          </label>
+        </div>
+
+        <div>
+          <button type="submit">Aloita peli</button>
+        </div>
+      </form>
+    </div>
+
+    {% if current %}
+      <div class="card">
+        <h2 style="margin-top: 0;">Jatka peliä</h2>
+        <p class="muted">Kesken oleva peli löytyi.</p>
+        <div class="stack">
+          <a href="{{ url_for('play') }}">Jatka peliä →</a>
+          <form method="post" action="{{ url_for('reset') }}">
+            <button type="submit">Tyhjennä peli</button>
+          </form>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

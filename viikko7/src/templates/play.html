@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}Peli{% endblock %}
+
+{% block content %}
+  <div class="stack">
+    <div class="card">
+      <div class="stack">
+        <div>
+          <span class="pill">Pelimuoto</span>
+          <div style="margin-top: 8px; font-weight: 700;">
+            {% if game_type == 'a' %}Ihminen vs ihminen{% endif %}
+            {% if game_type == 'b' %}Ihminen vs tekoäly{% endif %}
+            {% if game_type == 'c' %}Ihminen vs parannettu tekoäly{% endif %}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="card" style="padding: 14px;">
+            <div class="kv">
+              <div><strong>Eka:</strong> {{ tuomari.ekan }}</div>
+              <div><strong>Toka:</strong> {{ tuomari.tokan }}</div>
+              <div><strong>Tasapelit:</strong> {{ tuomari.tasapelit }}</div>
+            </div>
+          </div>
+
+          <div class="card" style="padding: 14px;">
+            <div class="kv">
+              <div><strong>Tavoite:</strong> {{ win_target }} voittoa</div>
+              {% if last %}
+                <div><strong>Edellinen:</strong> {{ last.ekan }} vs {{ last.tokan }}</div>
+                <div>
+                  <strong>Voittaja:</strong>
+                  {% if last.voittaja == 'eka' %}eka{% endif %}
+                  {% if last.voittaja == 'toka' %}toka{% endif %}
+                  {% if last.voittaja == 'tasapeli' %}tasapeli{% endif %}
+                </div>
+              {% else %}
+                <div class="muted">Ei vielä kierroksia.</div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% if error %}
+      <div class="error"><strong>{{ error }}</strong></div>
+    {% endif %}
+
+    {% if ended %}
+      <div class="card">
+        <h2 style="margin-top: 0;">Peli päättyi</h2>
+        <form method="post" action="{{ url_for('reset') }}">
+          <button type="submit">Uusi peli</button>
+        </form>
+      </div>
+    {% else %}
+      <div class="card">
+        <h2 style="margin-top: 0;">Tee siirto</h2>
+        <form method="post" action="{{ url_for('play_post') }}" class="stack">
+          <div>
+            <label>
+              Ensimmäisen pelaajan siirto
+              <input name="ekan_siirto" maxlength="1" autofocus required>
+            </label>
+            <div class="muted">Syötä: k / p / s</div>
+          </div>
+
+          {% if game_type == 'a' %}
+            <div>
+              <label>
+                Toisen pelaajan siirto
+                <input name="tokan_siirto" maxlength="1" required>
+              </label>
+              <div class="muted">Syötä: k / p / s</div>
+            </div>
+          {% endif %}
+
+          <div>
+            <button type="submit">Pelaa kierros</button>
+          </div>
+        </form>
+      </div>
+
+      <form method="post" action="{{ url_for('reset') }}">
+        <button type="submit">Lopeta / tyhjennä peli</button>
+      </form>
+    {% endif %}
+  </div>
+{% endblock %}
